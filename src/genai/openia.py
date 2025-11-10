@@ -1,8 +1,6 @@
-# summarizer.py
-"""
-Integration with OpenAI GPT for article summarization.
-"""
 import os
+from typing import List
+
 import openai
 
 # Optionally load the OpenAI API key from an environment variable
@@ -38,3 +36,31 @@ def summarize_article(article_text, max_tokens=128, model="gpt-3.5-turbo"):
     except Exception as e:
         print(f"OpenAI summarization failed: {e}")
         return None
+
+def generate_embedding_openai(text, model="text-embedding-ada-002") -> List[float] | None:
+    """
+    Generates an embedding for the input text using OpenAI's Embeddings API.
+
+    Args:
+        text (str): Text to generate the embedding for.
+        model (str): OpenAI embedding model name (default: "text-embedding-ada-002").
+
+    Returns:
+        list[float] or None: The generated embedding vector, or None on error.
+    """
+    if not OPENAI_API_KEY:
+        raise RuntimeError("OPENAI_API_KEY not found in environment!")
+    if not text or not text.strip():
+        print("Input text is empty.")
+        return None
+    try:
+        response = openai.Embedding.create(
+            input=[text],
+            model=model,
+        )
+        embedding = response['data'][0]['embedding']
+        return embedding
+    except Exception as e:
+        print(f"OpenAI embedding error: {e}")
+        return None
+

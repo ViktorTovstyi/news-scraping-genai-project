@@ -16,7 +16,7 @@ This project is designed to extract news articles from provided URLs, summarize 
 - **Programming Language**: Python
 - **Libraries**:
   - Web scraping: `requests`, `beautifulsoup4`
-  - GenAI integration: `openai`, `langchain`
+  - GenAI integration: `openai`
   - Vector database: `pinecone-client`, `chromadb`, `faiss-cpu`
   - Embedding generation: `sentence-transformers`
   - Environment variable management: `python-dotenv`

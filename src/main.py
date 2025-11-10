@@ -1,13 +1,12 @@
 # main.py
 # Orchestrates the news scraping, summarization, storage, and semantic search pipeline.
+from pydoc_data.topics import topics
+
 from scraping.scraper import scrape_news
-from search.semantic_search import search_articles
-from src.db.article_data import ArticleData
-from src.db.store_article_embedding import store_article_embedding
-from src.genai.embeddings_openai import generate_embedding_openai
-from src.genai.summarizer import summarize_article
+from src.db.search import semantic_search
+from src.db.store import store_data_in_db
+from src.genai.openia import summarize_article, generate_embedding_openai
 from utils import log
-import uuid
 
 
 def main():
@@ -18,25 +17,15 @@ def main():
     summary = summarize_article(content)
     log(f"Summarizing article: {summary}")
 
-    embedding = generate_embedding_openai(content)
-    log(f"Embedding: {embedding}")
-
-    article_id = str(uuid.uuid4())  # Generate a random unique article ID
-    article_data = ArticleData(
-        article_id=article_id,
-        article_text=content,
-        summary=summary,
-        embedding=embedding,
-        metadata={"title": title, "url": url}
-    )
-
-    store_article_embedding(article_data)
+    store_data_in_db([{"id": "0000", "title": title, "text": content, "summary": summary, "topics": ["News"]}])
 
     # Example semantic search
-    query = "Something about Mars."
+    # query = "Something about Mars."
+    query = "Mars"
     log(f"Semantic search for query: '{query}'")
-    search_results = search_articles(query)
+    search_results = semantic_search(query)
     log(f"Search results: {search_results}")
+
 
 if __name__ == "__main__":
     main()
