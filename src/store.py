@@ -1,8 +1,7 @@
 # Initialize ChromaDB client
 import chromadb
-from chromadb import Settings
 
-from src.genai.openia import generate_embedding_openai
+from openia import generate_embedding_openai
 
 persist_directory = "./chroma_db"
 
@@ -29,13 +28,11 @@ def store_data_in_db(articles):
         title_embedding = generate_embedding_openai(article["title"])
         article_embedding = generate_embedding_openai(article["text"])
         summary_embedding = generate_embedding_openai(article["summary"])
-        topic_embedding = generate_embedding_openai(", ".join(article["topics"]))
 
         # Add to ChromaDB collection
         collection.add(
-            documents=[article["title"], article["text"], article["summary"], ", ".join(article["topics"])],
-            metadatas=[{"type": "title"}, {"type": "text"}, {"type": "summary"}, {"type": "topics"}],
-            ids=[f"{article['id']}_title", f"{article['id']}_text", f"{article['id']}_summary",
-                 f"{article['id']}_topics"],
-            embeddings=[title_embedding, article_embedding, summary_embedding, topic_embedding],
+            documents=[article["title"], article["text"], article["summary"]],
+            metadatas=[{"type": "title"}, {"type": "text"}, {"type": "summary"}],
+            ids=[f"{article['id']}_title", f"{article['id']}_text", f"{article['id']}_summary"],
+            embeddings=[title_embedding, article_embedding, summary_embedding],
         )

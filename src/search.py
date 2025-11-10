@@ -1,5 +1,5 @@
-from src.db.store import collection
-from src.genai.openia import generate_embedding_openai
+from store import collection
+from openia import generate_embedding_openai
 
 
 def semantic_search(query, n_results=5):
@@ -21,16 +21,6 @@ def semantic_search(query, n_results=5):
     results = collection.query(
         query_embeddings=[query_embedding],
         n_results=n_results,
+        include=["documents"],
     )
     return results
-
-
-if __name__ == '__main__':
-    query = "War"
-    results = semantic_search(query)
-
-    # Display results
-    for doc, metadata in zip(results["documents"][0], results["metadatas"][0]):
-        print(f"Document: {doc}")
-        print(f"Metadata: {metadata}")
-        print("-----")
