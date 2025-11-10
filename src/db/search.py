@@ -26,7 +26,7 @@ def semantic_search(query, n_results=5):
 
 
 if __name__ == '__main__':
-    query = "Mars"
+    query = "War"
     results = semantic_search(query)
 
     # Display results

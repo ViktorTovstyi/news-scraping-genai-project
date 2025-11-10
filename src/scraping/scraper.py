@@ -3,9 +3,15 @@
 News scraping utility functions.
 Scrapes headline and main article text from a given news URL.
 """
+import uuid
 
 import requests
 from bs4 import BeautifulSoup
+
+from src.db.store import store_data_in_db
+from src.genai.openia import summarize_article
+from src.utils import log
+
 
 def scrape_news(url):
     """
@@ -53,3 +59,22 @@ def scrape_news(url):
         content = '\n'.join(content.split('\n'))
 
     return title, content
+
+def scrape_article(urls):
+
+    for url in urls:
+        title, content = scrape_news(url)
+        log(f"Scraping news from {url}")
+        (title, content) = scrape_news(url)
+
+        summary = summarize_article(content)
+        log(f"Summarizing article: {summary}")
+
+        article_id = str(uuid.uuid4())
+        store_data_in_db([{"id": article_id, "title": title, "text": content, "summary": summary, "topics": ["News"]}])
+
+
+if __name__ == '__main__':
+    scrape_article(["https://edition.cnn.com/2025/11/10/politics/mail-in-ballots-supreme-court-mississippi",
+                   "https://edition.cnn.com/2025/07/16/politics/trump-megabill-one-big-beautiful-bill",
+                   "https://edition.cnn.com/2025/11/09/politics/democrats-voting-government-shutdown-deal"])
