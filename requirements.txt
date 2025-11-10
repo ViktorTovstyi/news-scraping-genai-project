@@ -1,0 +1,24 @@
+# Web scraping libraries
+requests==2.31.0
+beautifulsoup4==4.12.2
+
+# GenAI integration (OpenAI GPT and LangChain)
+openai==0.27.8
+langchain==1.0.5
+
+# Vector database integration
+chromadb==1.3.4
+
+# Embedding generation
+sentence-transformers==2.2.2
+
+# Environment variable handling
+python-dotenv==1.0.0
+
+# Testing libraries
+pytest==9.0.0
+
+# General utilities
+numpy==2.3.4
+pandas==2.3.3
+tqdm==4.66.1

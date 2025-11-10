@@ -151,7 +151,7 @@ news-scraping-genai-project/
    - The `topic_identifier.py` script extracts the main topics of each article using GenAI tools.
 
 3. **Vector Database**:
-   - The `vector_store.py` script stores the articles, summaries, and topics as embeddings in a vector database (e.g., Pinecone, ChromaDB, or FAISS).
+   - The `vector_store.py` script stores the articles, summaries, and topics as embeddings in a vector database ChromaDB.
    - The `embeddings.py` script generates embeddings using OpenAI embeddings or Sentence Transformers.
 
 4. **Semantic Search**:
