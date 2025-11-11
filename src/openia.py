@@ -1,6 +1,15 @@
+"""
+openia.py
+
+Integration with OpenAI API for news article summarization and embedding generation.
+Provides helper functions to summarize articles and to generate embeddings
+using GPT models.
+
+Requires an OpenAI API key to be set as an environment variable: OPENAI_API_KEY
+"""
+
 import os
 from typing import List
-
 import openai
 
 # Optionally load the OpenAI API key from an environment variable
@@ -32,9 +41,7 @@ def summarize_article(article_text, max_tokens=128, model="gpt-3.5-turbo"):
             temperature=0.4,
         )
         summary = completion.choices[0].message['content'].strip()
-
         return summary
-
     except Exception as e:
         print(f"OpenAI summarization failed: {e}")
         return None

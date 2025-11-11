@@ -1,6 +1,11 @@
-# Initialize ChromaDB client
-import chromadb
+"""
+store.py
 
+Persistent storage utility for news articles in ChromaDB.
+Initializes a collection and provides a function to add articles with text,
+summary, topics, URL, and embeddings.
+"""
+import chromadb
 from openia import generate_embedding_openai
 
 persist_directory = "./chroma_db"
@@ -10,18 +15,21 @@ client = chromadb.PersistentClient()
 # Create a collection for news articles
 collection = client.get_or_create_collection(name="news_articles")
 
-
 def store_data_in_db(articles):
     """
-    Stores articles, summaries, and topics in the ChromaDB collection.
+    Store a list of articles with associated summaries, topics, and embeddings
+    in the ChromaDB collection.
 
     Args:
-        collection: The ChromaDB collection instance.
-        articles: A list of dictionaries, where each dictionary contains:
-                  - id: Unique identifier for the article.
-                  - text: Full article text.
-                  - summary: GenAI-generated summary.
-                  - topics: List of topics extracted using GenAI.
+        articles (list[dict]): Each dictionary should contain:
+            - id (str): Unique identifier.
+            - text (str): Full article text.
+            - summary (str): GenAI-generated summary.
+            - topics (list[str]): Topics extracted with GenAI.
+            - url (str): Source URL for the article.
+
+    Returns:
+        None
     """
     for article in articles:
         # Generate embeddings

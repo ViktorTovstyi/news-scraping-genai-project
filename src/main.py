@@ -1,3 +1,16 @@
+"""
+main.py
+
+Command-line interface for the news scraping and semantic search project.
+Provides two subcommands:
+- load: Scrapes articles from provided URLs and stores them in the database.
+- find: Performs a semantic search on the stored articles.
+
+Usage examples:
+    python main.py load <URL1> <URL2> ...
+    python main.py find "<semantic query>" --limit 3
+"""
+
 import argparse
 import sys
 
@@ -6,6 +19,16 @@ from search import semantic_search
 
 
 def run_find(query, limit):
+    """
+    Perform a semantic search using the provided query and limit.
+
+    Args:
+        query (str): The search query.
+        limit (int): The maximum number of results to retrieve.
+
+    Returns:
+        None
+    """
     print(f"Performing semantic search for: '{query}'\n")
     results = semantic_search(query, n_results=limit)
     if not results:
@@ -24,11 +47,27 @@ def run_find(query, limit):
 
 
 def run_load(urls):
+    """
+    Scrape and store articles from the given list of URLs.
+
+    Args:
+        urls (list[str]): List of news article URLs.
+
+    Returns:
+        None
+    """
     scrape_article(urls)
     pass
 
 
 def main():
+    """
+    Main entry point for the CLI tool.
+    Parses arguments and executes subcommands.
+
+    Returns:
+        None
+    """
     parser = argparse.ArgumentParser(
         description="News scraping and semantic search CLI"
     )
