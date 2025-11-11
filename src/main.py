@@ -1,20 +1,14 @@
 import argparse
 import sys
 
-from scraper import scrape_news
+from scraper import scrape_article
 from search import semantic_search
 
 COLLECTION_NAME = "news_articles"
 TOP_K = 5
 
 def run_load_articles(urls):
-    for url in urls:
-        print(f"Scraping article from: {url}")
-        article = scrape_news(url)
-        # Print scraped article info with preview
-        print(f"\nArticle ID: {article['id']}")
-        print(f"Title: {article['title']}")
-        print(f"Content: {article['content'][:300]}...\n" if article['content'] else "Content: (empty)\n")
+        article = scrape_article(urls)
 
 def run_find(query):
     print(f"Performing semantic search for: '{query}'\n")
