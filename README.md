@@ -1,186 +1,115 @@
-# **News Scraping, Summarization, and Semantic Search**
+# News Scraping, Summarization, and Semantic Search
 
-This project is designed to extract news articles from provided URLs, summarize them, identify main topics using Generative AI (GenAI), and enable semantic search over the processed articles. The goal is to demonstrate the use of GenAI tools, vector databases, and semantic search techniques in a practical application.
+This project provides powerful tools to extract news articles from URLs, summarize content using GenAI, store semantic vectors, and perform contextual search. It demonstrates the integration of AI, web scraping, and vector databases for real-world applications.
 
-## **Features**
-1. **News Scraping**: 
-   - Extract full-text articles and headlines from the provided URLs.
-2. **GenAI-Powered Summarization and Topic Identification**:
-   - Generate concise summaries of the articles.
-   - Identify main topics using Generative AI tools (e.g., OpenAI GPT models).
-3. **Semantic Search**:
-   - Store articles, summaries, and topics in a vector database.
-   - Implement a semantic search feature that understands user queries and retrieves relevant articles based on context.
+## Features
 
-## **Tech Stack**
-- **Programming Language**: Python
-- **Libraries**:
-  - Web scraping: `requests`, `beautifulsoup4`
-  - GenAI integration: `openai`
-  - Vector database: `pinecone-client`, `chromadb`, `faiss-cpu`
-  - Embedding generation: `sentence-transformers`
-  - Environment variable management: `python-dotenv`
-  - Testing: `pytest`
-  - Utilities: `numpy`, `pandas`, `tqdm`
+1. **Article Loader (Scraper)**
+   - Fetches full-text articles and headlines from user-provided web URLs via CLI.
+2. **GenAI Summarization & Topic Identification**
+   - Summarizes articles and identifies main topics using Generative AI (e.g., OpenAI GPT).
+3. **Semantic Search (Find)**
+   - Enables semantic search: query with a phrase and retrieve relevant articles using vector similarity in ChromaDB.
 
-## **Installation**
+## Tech Stack
 
-### **Prerequisites**
-- Python 3.8 or higher
-- Pip (Python package manager)
-- API keys for:
-  - [OpenAI](https://platform.openai.com/signup/) (for GPT models and embeddings)
-  - [Pinecone](https://www.pinecone.io/) (if using Pinecone for vector database)
+- **Language:** Python
+- **Web Scraping:** requests, beautifulsoup4
+- **GenAI:** openai
+- **Vector DB:** chromadb
+- **Embeddings:** sentence-transformers
+- **Config/Test:** python-dotenv, pytest
+- **Utilities:** numpy, pandas, tqdm
 
-### **Steps**
+## Installation
 
-1. **Clone the Repository**
-   ```bash
+1. **Clone the Repository:**
+   ```sh
    git clone https://github.com/your-username/news-scraping-genai-project.git
    cd news-scraping-genai-project
    ```
 
-2. **Set Up a Virtual Environment**
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+2. **Set Up Virtual Environments:**
+   ```sh
+   python -m venv .venv
+   source .venv/bin/activate      # Windows: .venv\Scripts\activate
    ```
-
-3. **Install Dependencies**
-   Install all required libraries from `requirements.txt`:
-   ```bash
+3. **Install Requirements:**
+   ```sh
    pip install -r requirements.txt
    ```
-
-4. **Set Up Environment Variables**
-   Create a `.env` file in the root directory and add your API keys and database credentials:
-   ```plaintext
+4. **Set Environment Variables:**
+   Create a `.env` file in the root with:
+   ```env
    OPENAI_API_KEY=your_openai_api_key
-   PINECONE_API_KEY=your_pinecone_api_key
-   PINECONE_ENVIRONMENT=your_pinecone_environment
+   # (ChromaDB uses local storage by default)
    ```
 
-5. **Run the Project**
-   Execute the pipeline from the command line:
-   ```bash
-   python src/main.py
-   ```
+## Usage
 
-## **Usage**
+### CLI Commands
+- **Load articles from URLs:**
+  ```sh
+  python src/main.py load "https://news-site.com/article1" "https://news-site.com/article2"
+  ```
 
-### **Input**
-- A list of URLs pointing to news articles.
+- **Semantic search over articles:**
+  ```sh
+  python src/main.py find "machine learning breakthroughs" --top_k 3
+  ```
+  (Top-K results include similarity score, metadata, and article ID.)
 
-### **Output**
-- **Summaries**: Concise summaries of the articles.
-- **Topics**: Main topics identified for each article.
-- **Semantic Search**: Ability to query articles using natural language and retrieve relevant results.
+### Input
+- Any list of article URLs (for loading/scraping)
+- Natural language queries (for searching)
 
-### **Example**
-1. **Input**:
-   ```plaintext
-   https://example-news-site.com/article1
-   https://example-news-site.com/article2
-   ```
-2. **Output**:
-   - **Summaries**:
-     - *Article 1*: "This article discusses the impact of climate change on global agriculture..."
-     - *Article 2*: "The latest advancements in AI technology are transforming industries..."
-   - **Topics**:
-     - *Article 1*: ["Climate Change", "Agriculture", "Global Warming"]
-     - *Article 2*: ["AI", "Technology", "Innovation"]
+### Output
+- Summaries, topics, article vectors, and search results with relevance scores
 
-3. **Semantic Search**:
-   - **Query**: "How is AI changing industries?"
-   - **Result**: Returns *Article 2* as the most relevant result.
-
-## **Project Structure**
+## Project Structure
 
 ```plaintext
 news-scraping-genai-project/
 │
-├── data/                             # Directory for storing raw and processed data
-│   ├── raw_articles/                 # Raw scraped articles (optional, for debugging)
-│   ├── processed_articles/           # Processed articles with summaries and topics
-│   └── embeddings/                   # Embedding files (optional, for debugging)
-│
-├── src/                              # Source code directory
-│   ├── scraping/                     # Scripts for news scraping
-│   │   ├── scraper.py                # Main scraping logic
-│   │   ├── parser.py                 # Helper functions for parsing HTML
-│   │   └── __init__.py               # Init file for scraping module
-│   │
-│   ├── genai/                        # Scripts for GenAI integration
-│   │   ├── summarizer.py             # Summarization logic using GenAI
-│   │   ├── topic_identifier.py       # Topic extraction logic using GenAI
-│   │   └── __init__.py               # Init file for GenAI module
-│   │
-│   ├── db/                           # Scripts for vector database integration
-│   │   ├── vector_store.py           # Logic to interact with vector database
-│   │   ├── embeddings.py             # Script to generate embeddings
-│   │   └── __init__.py               # Init file for database module
-│   │
-│   ├── search/                       # Scripts for semantic search
-│   │   ├── semantic_search.py        # Semantic search logic
-│   │   └── __init__.py               # Init file for search module
-│   │
-│   ├── config.py                     # Configuration variables (API keys, database URLs, etc.)
-│   ├── main.py                       # Main script to run the entire pipeline
-│   └── utils.py                      # Utility functions (e.g., logging, error handling)
-│
-├── requirements.txt                  # List of Python dependencies
-├── README.md                         # Project documentation
-├── .env                              # Environment variables (e.g., API keys, database credentials)
-├── .gitignore                        # Files and folders to ignore in Git
-└── tests/                            # Test cases
-    ├── test_scraper.py               # Unit tests for scraping module
-    ├── test_genai.py                 # Unit tests for GenAI module
-    ├── test_db.py                    # Unit tests for database module
-    ├── test_search.py                # Unit tests for search module
-    └── __init__.py                   # Init file for tests module
+├── src/
+│   ├── main.py                 # CLI loader & semantic search
+│   ├── scraper.py              # Scrape articles from URLs
+│   ├── summarizer.py           # Summarize article content via GenAI
+│   ├── store_article_embedding.py # Store articles+embeddings in ChromaDB
+│   ├── semantic_search.py      # Semantic query logic for articles
+│   ├── ... other modules
+│   └── __init__.py
+├── requirements.txt
+├── .env
+└── docs/
+    ├── project-structure.md
+    └── dev-notes.md
 ```
 
-## **How It Works**
+## How It Works
 
-1. **Scraping**:
-   - The `scraper.py` script extracts the full text and headline from the provided article URLs.
-   - The parsed content is cleaned and stored in the `data/raw_articles/` directory for debugging purposes.
+1. **Load:** Use the CLI to load one or more article URLs. Each receives a unique ID. Text is scraped, summarized if configured, and stored with vector embedding.
+2. **Find:** Use natural language queries with the CLI to find relevant articles by semantic similarity (vector distance in ChromaDB).
 
-2. **Summarization and Topic Identification**:
-   - The `summarizer.py` script uses OpenAI GPT (or another GenAI tool) to generate concise summaries of the articles.
-   - The `topic_identifier.py` script extracts the main topics of each article using GenAI tools.
+## Testing
 
-3. **Vector Database**:
-   - The `vector_store.py` script stores the articles, summaries, and topics as embeddings in a vector database ChromaDB.
-   - The `embeddings.py` script generates embeddings using OpenAI embeddings or Sentence Transformers.
-
-4. **Semantic Search**:
-   - The `semantic_search.py` script allows users to input natural language queries.
-   - The vector database is queried using embeddings generated from the input query, returning the most relevant articles.
-
-## **Testing**
-
-Run the unit tests using `pytest`:
-
-```bash
+Run all tests (if available):
+```sh
 pytest tests/
 ```
 
-## **Future Enhancements**
-- Add support for more GenAI platforms (e.g., Hugging Face models).
-- Add a web-based user interface for easier interaction.
-- Implement support for additional vector databases (e.g., Weaviate, Milvus).
-- Add support for real-time news scraping from RSS feeds or APIs.
+## Future Enhancements
+- Visual interface for search and load
+- Additional AI models and vector databases
+- Live newsfeeds/RSS ingestion
 
-## **Contributing**
-Feel free to contribute to this project by submitting issues or pull requests. For major changes, please open an issue first to discuss what you would like to change.
+## Contributing
+Open issues or submit pull requests. Please use feature branches and ensure PEP8 compliance.
 
-## **License**
-This project is licensed under the MIT License.
+## License
+MIT License
 
-## **Contact**
-For any questions or suggestions, feel free to reach out:
-
-- **Name**: Viktor Tovstyi
-- **Email**: Viktor_Tovstyi@epam.com
-- **GitHub**: 
+## Contact
+- Viktor Tovstyi
+- Email: Viktor_Tovstyi@epam.com
+- GitHub: [your-github-url]
