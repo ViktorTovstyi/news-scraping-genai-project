@@ -14,8 +14,8 @@ def test_semantic_search_happy_path(monkeypatch):
                         'documents': [[]],
                         'embeddings': None,
                         'ids': [[]],
-                        'included': ['documents'],
-                        'metadatas': None,
+                        'included': ['documents', 'metadatas'],
+                        'metadatas': [[]],
                         'uris': None}
     mock_collection.query.return_value = expected_results
 
@@ -36,8 +36,8 @@ def test_semantic_search_empty_results(monkeypatch):
                        'documents': [[]],
                        'embeddings': None,
                        'ids': [[]],
-                       'included': ['documents'],
-                       'metadatas': None,
+                       'included': ['documents', 'metadatas'],
+                       'metadatas': [[]],
                        'uris': None}
 
 

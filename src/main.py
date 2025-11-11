@@ -7,7 +7,7 @@ from search import semantic_search
 
 def run_find(query, limit):
     print(f"Performing semantic search for: '{query}'\n")
-    results = semantic_search(query, limit)
+    results = semantic_search(query, n_results=limit)
     if not results:
         print("No results found.")
         return
@@ -19,6 +19,11 @@ def run_find(query, limit):
         print(f"URL: {url}")
         print(f"Summary: {summary}")
         print("-----")
+
+
+def run_load(urls):
+    scrape_article(urls)
+    pass
 
 
 def main():
@@ -44,7 +49,7 @@ def main():
     args = parser.parse_args()
 
     if args.command == 'load':
-        scrape_article(args.urls)
+        run_load(args.urls)
     elif args.command == 'find':
         run_find(args.query, args.limit)
     else:

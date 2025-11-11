@@ -62,7 +62,7 @@ python src/main.py load \
 
 #### Semantic search over articles with optional result limit:
 ```sh
-python src/main.py find "machine learning breakthroughs" --limit 10
+python src/main.py find "War in Ukraine" --limit 10
 ```
 - If you omit `--limit`, you'll get the top 5 results by default.
 - Returned results include similarity score, metadata, and article ID.
@@ -105,8 +105,18 @@ news-scraping-genai-project/
 
 Run all tests (if available):
 ```sh
+pip install pytest-cov
 pytest tests/
 ```
+
+
+
+### Test Run
+
+![](docs/img/Screenshot%202025-11-11%20143039.png)
+
+![](docs/img/Screenshot%202025-11-11%20143222.png)
+
 
 ## Future Enhancements
 - Visual interface for search and load
