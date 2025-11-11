@@ -15,8 +15,10 @@ def run_find(query, limit):
         metadatas = results["metadatas"][0][index]
         documents = results["documents"][0][index]
         url = metadatas["url"]
+        topics = metadatas["topics"]
         summary = metadatas["summary"]
         print(f"URL: {url}")
+        print(f"Topics: {topics}")
         print(f"Summary: {summary}")
         print("-----")
 

@@ -4,6 +4,7 @@ News scraping utility functions.
 Scrapes headline and main article text from a given news URL.
 """
 import uuid
+from typing import Any
 
 import requests
 from bs4 import BeautifulSoup
@@ -11,6 +12,9 @@ from bs4 import BeautifulSoup
 from openia import summarize_article
 from store import store_data_in_db
 from utils import log
+from transformers import pipeline
+
+classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
 
 
 def scrape_news(url):
@@ -69,6 +73,19 @@ def scrape_article(urls):
         summary = summarize_article(content)
         log(f"Summarizing article: {summary}")
 
+        topics = get_topics(content)
+
         article_id = str(uuid.uuid4())
-        data = {"id": article_id, "title": title, "text": content, "summary": summary, "topics": ["News"], "url": url}
+        data = {"id": article_id, "title": title, "text": content, "summary": summary, "topics": topics,
+                "url": url}
+
+        log(f"Topics: {topics}")
         store_data_in_db([data])
+
+
+def get_topics(content) -> [str]:
+    candidate_labels = ["Artificial Intelligence", "Business", "Technology", "Politics", "Environment"]
+
+    result = classifier(content, candidate_labels)
+    topics = result['labels'][:4]
+    return topics

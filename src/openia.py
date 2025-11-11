@@ -32,7 +32,9 @@ def summarize_article(article_text, max_tokens=128, model="gpt-3.5-turbo"):
             temperature=0.4,
         )
         summary = completion.choices[0].message['content'].strip()
+
         return summary
+
     except Exception as e:
         print(f"OpenAI summarization failed: {e}")
         return None
