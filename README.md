@@ -109,9 +109,25 @@ pip install pytest-cov
 pytest tests/
 ```
 
+```
+======================================= tests coverage =======================================
+______________________ coverage: platform win32, python 3.13.9-final-0 _______________________
 
+Name              Stmts   Miss  Cover   Missing
+-----------------------------------------------
+src\__init__.py       0      0   100%
+src\main.py          38     10    74%   12-13, 15-21, 61
+src\openia.py        28      0   100%
+src\scraper.py       38      0   100%
+src\search.py         6      3    50%   18-26
+src\store.py         10      0   100%
+src\utils.py          2      0   100%
+-----------------------------------------------
+TOTAL               122     13    89%
+=============================== 21 passed, 1 warning in 6.11s ================================
+```
 
-### Test Run
+### Test Run Result
 
 ![](docs/img/Screenshot%202025-11-11%20143039.png)
 
