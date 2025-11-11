@@ -4,21 +4,22 @@ import sys
 from scraper import scrape_article
 from search import semantic_search
 
-COLLECTION_NAME = "news_articles"
-TOP_K = 5
 
-def run_load_articles(urls):
-        article = scrape_article(urls)
-
-def run_find(query):
+def run_find(query, limit):
     print(f"Performing semantic search for: '{query}'\n")
-    results = semantic_search(query)
+    results = semantic_search(query, limit)
     if not results:
         print("No results found.")
         return
-    for doc in results["documents"]:
-        print(f"Document: {doc}")
+    for index, ids in enumerate(results["ids"][0]):
+        metadatas = results["metadatas"][0][index]
+        documents = results["documents"][0][index]
+        url = metadatas["url"]
+        summary = metadatas["summary"]
+        print(f"URL: {url}")
+        print(f"Summary: {summary}")
         print("-----")
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -26,7 +27,7 @@ def main():
     )
     subparsers = parser.add_subparsers(dest='command')
 
-    # Sub-command for loading articles (accept one or more URLs)
+    # Sub-command for loading articles
     load_parser = subparsers.add_parser('load', help='Load one or more news articles from URLs')
     load_parser.add_argument(
         'urls',
@@ -35,19 +36,21 @@ def main():
         help='One or more news article URLs (separated by space)'
     )
 
-    # Sub-command for find (semantic search)
-    find_parser = subparsers.add_parser('find', help='Find articles by semantic search')
+    # Sub-command for semantic search, now with --limit option
+    find_parser = subparsers.add_parser('find', help='Semantic search over the articles')
     find_parser.add_argument('query', type=str, help='Search query')
+    find_parser.add_argument('--limit', type=int, default=5, help='Number of top results to return (default: 5)')
 
     args = parser.parse_args()
 
     if args.command == 'load':
-        run_load_articles(args.urls)
+        scrape_article(args.urls)
     elif args.command == 'find':
-        run_find(args.query)
+        run_find(args.query, args.limit)
     else:
         parser.print_help()
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

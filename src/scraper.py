@@ -42,7 +42,7 @@ def scrape_news(url):
         title = h1.text.strip()
     elif soup.title:
         title = soup.title.string.strip()
-    
+
     # Try to extract article text (many sites use <article> tag, fallback to paragraphs)
     article_tag = soup.find('article')
     content = None
@@ -60,8 +60,8 @@ def scrape_news(url):
 
     return title, content
 
-def scrape_article(urls):
 
+def scrape_article(urls):
     for url in urls:
         log(f"Scraping news from {url}")
         (title, content) = scrape_news(url)
@@ -70,5 +70,5 @@ def scrape_article(urls):
         log(f"Summarizing article: {summary}")
 
         article_id = str(uuid.uuid4())
-        data = {"id": article_id, "title": title, "text": content, "summary": summary, "topics": ["News"]}
+        data = {"id": article_id, "title": title, "text": content, "summary": summary, "topics": ["News"], "url": url}
         store_data_in_db([data])

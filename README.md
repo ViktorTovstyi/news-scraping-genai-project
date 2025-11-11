@@ -29,7 +29,7 @@ This project provides powerful tools to extract news articles from URLs, summari
    cd news-scraping-genai-project
    ```
 
-2. **Set Up Virtual Environments:**
+2. **Set Up Virtual Environment:**
    ```sh
    python -m venv .venv
    source .venv/bin/activate      # Windows: .venv\Scripts\activate
@@ -48,16 +48,24 @@ This project provides powerful tools to extract news articles from URLs, summari
 ## Usage
 
 ### CLI Commands
-- **Load articles from URLs:**
-  ```sh
-  python src/main.py load "https://news-site.com/article1" "https://news-site.com/article2"
-  ```
+#### Load articles from URLs:
+```sh
+python src/main.py load \
+ "https://www.bbc.com/news/articles/cj41pgpk0wgo" \
+ "https://www.bbc.com/news/articles/cj41g5w0vgno" \
+ "https://www.bbc.com/news/articles/cx2p1zx4dkro" \
+ "https://edition.cnn.com/2025/11/10/world/new-delhi-explosion-red-fort-intl" \
+ "https://edition.cnn.com/2025/11/10/politics/e-jean-carroll-trump-supreme-court" \
+ "https://edition.cnn.com/2025/11/08/europe/ukraine-russia-power-attack-intl" \
+ "https://edition.cnn.com/2025/11/10/politics/e-jean-carroll-trump-supreme-court"                                                                      
+```
 
-- **Semantic search over articles:**
-  ```sh
-  python src/main.py find "machine learning breakthroughs"
-  ```
-  (Top-K results include similarity score, metadata, and article ID.)
+#### Semantic search over articles with optional result limit:
+```sh
+python src/main.py find "machine learning breakthroughs" --limit 10
+```
+- If you omit `--limit`, you'll get the top 5 results by default.
+- Returned results include similarity score, metadata, and article ID.
 
 ### Input
 - Any list of article URLs (for loading/scraping)
@@ -91,6 +99,7 @@ news-scraping-genai-project/
 
 1. **Load:** Use the CLI to load one or more article URLs. Each receives a unique ID. Text is scraped, summarized if configured, and stored with vector embedding.
 2. **Find:** Use natural language queries with the CLI to find relevant articles by semantic similarity (vector distance in ChromaDB).
+   - You can use `--limit <N>` with the `find` command to change the returned number of results.
 
 ## Testing
 

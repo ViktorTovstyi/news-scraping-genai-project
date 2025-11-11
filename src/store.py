@@ -25,14 +25,12 @@ def store_data_in_db(articles):
     """
     for article in articles:
         # Generate embeddings
-        title_embedding = generate_embedding_openai(article["title"])
         article_embedding = generate_embedding_openai(article["text"])
-        summary_embedding = generate_embedding_openai(article["summary"])
-
+        topics = ",".join(article["topics"])
         # Add to ChromaDB collection
         collection.add(
-            documents=[article["title"], article["text"], article["summary"]],
-            metadatas=[{"type": "title"}, {"type": "text"}, {"type": "summary"}],
-            ids=[f"{article['id']}_title", f"{article['id']}_text", f"{article['id']}_summary"],
-            embeddings=[title_embedding, article_embedding, summary_embedding],
+            documents=[article["text"]],
+            metadatas=[{"summary": article["summary"], "url": article["url"], "topics": topics}],
+            ids=[article['id']],
+            embeddings=[article_embedding],
         )

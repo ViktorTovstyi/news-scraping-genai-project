@@ -21,6 +21,6 @@ def semantic_search(query, n_results=5):
     results = collection.query(
         query_embeddings=[query_embedding],
         n_results=n_results,
-        include=["documents"],
+        include=["documents", "metadatas"],
     )
     return results
