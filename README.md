@@ -55,7 +55,7 @@ This project provides powerful tools to extract news articles from URLs, summari
 
 - **Semantic search over articles:**
   ```sh
-  python src/main.py find "machine learning breakthroughs" --top_k 3
+  python src/main.py find "machine learning breakthroughs"
   ```
   (Top-K results include similarity score, metadata, and article ID.)
 
@@ -79,6 +79,7 @@ news-scraping-genai-project/
 │   ├── semantic_search.py      # Semantic query logic for articles
 │   ├── ... other modules
 │   └── __init__.py
+├── tests/
 ├── requirements.txt
 ├── .env
 └── docs/
@@ -112,4 +113,4 @@ MIT License
 ## Contact
 - Viktor Tovstyi
 - Email: Viktor_Tovstyi@epam.com
-- GitHub: [your-github-url]
+- GitHub: https://github.com/ViktorTovstyi/news-scraping-genai-project.git
